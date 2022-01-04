@@ -1,0 +1,35 @@
+﻿@page "/todo"
+@using Microsoft.AspNetCore.Components
+@using Models
+
+<PageTitle>Todo</PageTitle>
+
+<h1>Todo (@toDoItems.Count(todo => !todo.IsDone))</h1>
+
+<ul>
+    @foreach (var todo in toDoItems)
+    {
+        <li>
+            <input type="checkbox" @bind="todo.IsDone" />
+            <input @bind="todo.Title" />
+        </li>
+    }
+</ul>
+
+<input placeholder="Something todo" @bind="_newToDo" />
+<button @onclick="AddTodo">Add todo</button>
+
+
+@code {
+    private List<ToDoItem> toDoItems = new();
+    private string? _newToDo;
+
+    private void AddTodo()
+    {
+        if (!string.IsNullOrWhiteSpace(_newToDo))
+        {
+            toDoItems.Add(new ToDoItem { Title = _newToDo });
+            _newToDo = string.Empty;
+        }
+    }
+}
